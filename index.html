@@ -1,0 +1,93 @@
+```html
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Social Media QR Code Generator – SocialTools</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <nav class="main-nav">
+    <div class="nav-logo"><i class="fas fa-qrcode"></i> SocialTools</div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active"><i class="fas fa-qrcode"></i> QR Generator</a>
+      <a href="landing-builder.html" class="nav-link"><i class="fas fa-layer-group"></i> Landing Page Builder</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <header>
+      <h1>📲 Social Media<br/><span>QR Code Generator</span></h1>
+      <p class="subtitle">Erstelle QR-Codes für alle deine Social-Media-Profile</p>
+    </header>
+
+    <div class="platform-grid">
+      <button class="platform-btn active" data-platform="instagram" data-color="#E1306C" data-prefix="https://instagram.com/"><i class="fab fa-instagram"></i> Instagram</button>
+      <button class="platform-btn" data-platform="facebook"  data-color="#1877F2" data-prefix="https://facebook.com/"><i class="fab fa-facebook"></i> Facebook</button>
+      <button class="platform-btn" data-platform="twitter"   data-color="#000000" data-prefix="https://x.com/"><i class="fab fa-x-twitter"></i> X / Twitter</button>
+      <button class="platform-btn" data-platform="tiktok"    data-color="#010101" data-prefix="https://tiktok.com/@"><i class="fab fa-tiktok"></i> TikTok</button>
+      <button class="platform-btn" data-platform="youtube"   data-color="#FF0000" data-prefix="https://youtube.com/@"><i class="fab fa-youtube"></i> YouTube</button>
+      <button class="platform-btn" data-platform="linkedin"  data-color="#0A66C2" data-prefix="https://linkedin.com/in/"><i class="fab fa-linkedin"></i> LinkedIn</button>
+      <button class="platform-btn" data-platform="pinterest" data-color="#E60023" data-prefix="https://pinterest.com/"><i class="fab fa-pinterest"></i> Pinterest</button>
+      <button class="platform-btn" data-platform="snapchat"  data-color="#FFFC00" data-prefix="https://snapchat.com/add/"><i class="fab fa-snapchat"></i> Snapchat</button>
+      <button class="platform-btn" data-platform="whatsapp"  data-color="#25D366" data-prefix="https://wa.me/"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+      <button class="platform-btn" data-platform="telegram"  data-color="#229ED9" data-prefix="https://t.me/"><i class="fab fa-telegram"></i> Telegram</button>
+      <button class="platform-btn" data-platform="github"    data-color="#181717" data-prefix="https://github.com/"><i class="fab fa-github"></i> GitHub</button>
+      <button class="platform-btn" data-platform="custom"    data-color="#6C63FF" data-prefix=""><i class="fas fa-link"></i> Eigene URL</button>
+    </div>
+
+    <div class="input-section">
+      <div class="input-wrapper">
+        <span class="prefix-label" id="prefixLabel">https://instagram.com/</span>
+        <input type="text" id="usernameInput" placeholder="dein_username" autocomplete="off" />
+      </div>
+      <div class="options-row">
+        <label>Größe:
+          <select id="sizeSelect">
+            <option value="128">128 px</option>
+            <option value="200" selected>200 px</option>
+            <option value="300">300 px</option>
+            <option value="400">400 px</option>
+          </select>
+        </label>
+        <label>Fehlerkorrektur:
+          <select id="ecSelect">
+            <option value="L">L (7%)</option>
+            <option value="M" selected>M (15%)</option>
+            <option value="Q">Q (25%)</option>
+            <option value="H">H (30%)</option>
+          </select>
+        </label>
+      </div>
+      <button class="generate-btn" id="generateBtn">
+        <i class="fas fa-qrcode"></i> QR Code generieren
+      </button>
+    </div>
+
+    <div class="output-section" id="outputSection" style="display:none;">
+      <div class="qr-card">
+        <div class="qr-platform-label" id="qrPlatformLabel">Instagram</div>
+        <canvas id="qrCanvas"></canvas>
+        <div class="qr-url-label" id="qrUrlLabel"></div>
+      </div>
+      <div class="action-buttons">
+        <button class="action-btn download-btn" id="downloadBtn"><i class="fas fa-download"></i> PNG herunterladen</button>
+        <button class="action-btn copy-btn" id="copyBtn"><i class="fas fa-copy"></i> URL kopieren</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <footer>
+    <p>Made with ❤️ | SocialTools © 2026</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
+```

@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -16,8 +17,10 @@
     body.theme-rose   { background: linear-gradient(160deg,#f953c6,#b91d73); color:#fff; }
     body.theme-mint   { background: linear-gradient(160deg,#00b09b,#96c93d); color:#1a1a2e; }
     body.theme-light  { background: linear-gradient(160deg,#f5f7fa,#c3cfe2); color:#1a1a2e; }
+
     .page { display:flex; flex-direction:column; align-items:center; gap:1rem; max-width:420px; width:100%; animation:fadeIn 0.5s ease; }
     @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+
     .av-wrap { position:relative; display:inline-block; }
     .av { width:110px; height:110px; object-fit:cover; border:3px solid rgba(255,255,255,0.4); box-shadow:0 8px 30px rgba(0,0,0,0.3); transition:transform 0.3s; }
     .av:hover { transform:scale(1.05); }
@@ -25,9 +28,11 @@
     .shape-square  { border-radius:14px; }
     .shape-hexagon { clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%); }
     .verified { position:absolute; bottom:4px; right:4px; background:#1d9bf0; color:#fff; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:.75rem; border:2px solid white; }
+
     .name  { font-size:1.6rem; font-weight:800; text-align:center; line-height:1.2; }
     .badge { font-size:0.75rem; font-weight:700; padding:0.28rem 0.85rem; border-radius:20px; background:rgba(255,255,255,0.18); text-transform:uppercase; letter-spacing:0.07em; }
     .bio   { font-size:0.92rem; text-align:center; opacity:0.8; max-width:320px; line-height:1.6; }
+
     .links { width:100%; display:flex; flex-direction:column; gap:0.75rem; margin-top:0.5rem; }
     .lp-btn { display:flex; align-items:center; gap:0.75rem; width:100%; padding:0.9rem 1.3rem; text-decoration:none; font-size:0.95rem; font-weight:700; color:#fff; transition:transform 0.2s ease,box-shadow 0.2s ease,filter 0.2s; }
     .lp-btn:hover { transform:translateY(-3px); box-shadow:0 12px 28px rgba(0,0,0,0.3); filter:brightness(1.1); }
@@ -38,13 +43,17 @@
     .lp-btn i   { font-size:1.15rem; width:26px; text-align:center; flex-shrink:0; }
     .lp-btn span{ flex:1; text-align:center; }
     .arr { font-size:0.8rem; opacity:0.6; flex-shrink:0; }
+
     .links.animated .lp-btn { animation:slideUp 0.45s ease both; }
     @keyframes slideUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:none} }
+
     .footer { margin-top:1.5rem; font-size:0.72rem; opacity:0.35; text-align:center; }
     .footer a { color:inherit; text-decoration:none; }
     .footer a:hover { text-decoration:underline; }
+
     .edit-btn { position:fixed; bottom:1.5rem; right:1.5rem; background:rgba(108,99,255,0.9); color:#fff; border:none; border-radius:50px; padding:0.6rem 1.1rem; font-size:0.82rem; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:0.4rem; backdrop-filter:blur(8px); box-shadow:0 6px 20px rgba(108,99,255,0.5); text-decoration:none; transition:all 0.25s; z-index:50; }
     .edit-btn:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(108,99,255,0.6); }
+
     .error-box { text-align:center; padding:2rem; max-width:360px; background:rgba(255,255,255,0.08); border-radius:16px; border:1px solid rgba(255,255,255,0.12); }
     .error-box i  { font-size:3rem; opacity:0.4; margin-bottom:1rem; display:block; }
     .error-box h2 { font-size:1.2rem; margin-bottom:0.5rem; }
@@ -53,8 +62,13 @@
   </style>
 </head>
 <body class="theme-dark" id="viewBody">
+
   <div id="pageContent"></div>
-  <a class="edit-btn" id="editBtn" href="landing-builder.html"><i class="fas fa-pen"></i> Bearbeiten</a>
+
+  <a class="edit-btn" id="editBtn" href="landing-builder.html">
+    <i class="fas fa-pen"></i> Bearbeiten
+  </a>
+
   <script>
   (function() {
     const params  = new URLSearchParams(window.location.search);
@@ -62,39 +76,82 @@
     const body    = document.getElementById('viewBody');
     const content = document.getElementById('pageContent');
     const editBtn = document.getElementById('editBtn');
+
     if (!encoded) {
-      content.innerHTML = '<div class="error-box"><i class="fas fa-link-slash"></i><h2>Keine Landing Page gefunden</h2><p>Diese URL enthält keine Daten. Erstelle zuerst eine im Builder.</p><a href="landing-builder.html"><i class="fas fa-layer-group"></i> Zum Builder</a></div>';
-      editBtn.style.display = 'none'; return;
+      content.innerHTML = `<div class="error-box"><i class="fas fa-link-slash"></i><h2>Keine Landing Page gefunden</h2><p>Diese URL enthält keine Daten. Erstelle zuerst eine im Builder.</p><a href="landing-builder.html"><i class="fas fa-layer-group"></i> Zum Builder</a></div>`;
+      editBtn.style.display = 'none';
+      return;
     }
+
     let state;
-    try { state = JSON.parse(decodeURIComponent(escape(atob(encoded)))); }
-    catch(e) {
-      content.innerHTML = '<div class="error-box"><i class="fas fa-triangle-exclamation"></i><h2>Ungültige URL</h2><p>Die Daten konnten nicht geladen werden.</p><a href="landing-builder.html"><i class="fas fa-layer-group"></i> Neu erstellen</a></div>';
-      editBtn.style.display = 'none'; return;
+    try {
+      state = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+    } catch(e) {
+      content.innerHTML = `<div class="error-box"><i class="fas fa-triangle-exclamation"></i><h2>Ungültige URL</h2><p>Die Daten konnten nicht geladen werden.</p><a href="landing-builder.html"><i class="fas fa-layer-group"></i> Neu erstellen</a></div>`;
+      editBtn.style.display = 'none';
+      return;
     }
+
     const { profile, links, design } = state;
+
     if (profile.name) {
       document.title = profile.name + ' – Links';
-      const m = document.createElement('meta'); m.name = 'description';
-      m.content = profile.bio || ('Alle Links von ' + profile.name);
+      const m = document.createElement('meta');
+      m.name = 'description';
+      m.content = profile.bio || `Alle Links von ${profile.name}`;
       document.head.appendChild(m);
     }
+
     body.className = 'theme-' + (design.theme || 'dark');
+
     const avatarSrc = profile.avatarUrl ||
-      ('https://ui-avatars.com/api/?name=' + encodeURIComponent(profile.name||'You') + '&background=6C63FF&color=fff&size=200');
-    const ICONS = { instagram:'fab fa-instagram',facebook:'fab fa-facebook',twitter:'fab fa-x-twitter',tiktok:'fab fa-tiktok',youtube:'fab fa-youtube',linkedin:'fab fa-linkedin',pinterest:'fab fa-pinterest',snapchat:'fab fa-snapchat',whatsapp:'fab fa-whatsapp',telegram:'fab fa-telegram',github:'fab fa-github',spotify:'fab fa-spotify',twitch:'fab fa-twitch',discord:'fab fa-discord',website:'fas fa-globe',email:'fab fa-envelope',custom:'fab fa-link' };
-    const linksHTML = (links||[]).map(function(link, i) {
+      `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.name||'You')}&background=6C63FF&color=fff&size=200`;
+
+    const ICONS = {
+      instagram:'fab fa-instagram', facebook:'fab fa-facebook', twitter:'fab fa-x-twitter',
+      tiktok:'fab fa-tiktok', youtube:'fab fa-youtube', linkedin:'fab fa-linkedin',
+      pinterest:'fab fa-pinterest', snapchat:'fab fa-snapchat', whatsapp:'fab fa-whatsapp',
+      telegram:'fab fa-telegram', github:'fab fa-github', spotify:'fab fa-spotify',
+      twitch:'fab fa-twitch', discord:'fab fa-discord', website:'fas fa-globe',
+      email:'fas fa-envelope', custom:'fas fa-link',
+    };
+
+    const linksHTML = (links||[]).map((link, i) => {
       const icon  = ICONS[link.platformId] || 'fas fa-link';
-      const delay = design.animations ? ('animation-delay:' + (i*0.09) + 's') : '';
+      const delay = design.animations ? `animation-delay:${i*0.09}s` : '';
       const bg    = design.btnStyle === 'outline'
-        ? ('background:transparent;color:' + design.accentColor + ';border:2px solid ' + design.accentColor + ';')
-        : ('background:' + design.accentColor + ';');
-      return '<a href="' + esc(link.url) + '" target="_blank" rel="noopener" class="lp-btn style-' + design.btnStyle + '" style="' + bg + delay + '"><i class="' + icon + '"></i><span>' + esc(link.label) + '</span><i class="fas fa-chevron-right arr"></i></a>';
+        ? `background:transparent;color:${design.accentColor};border:2px solid ${design.accentColor};`
+        : `background:${design.accentColor};`;
+      return `<a href="${esc(link.url)}" target="_blank" rel="noopener"
+           class="lp-btn style-${design.btnStyle}" style="${bg}${delay}">
+        <i class="${icon}"></i><span>${esc(link.label)}</span>
+        <i class="fas fa-chevron-right arr"></i>
+      </a>`;
     }).join('');
-    content.innerHTML = '<div class="page"><div class="av-wrap"><img class="av shape-' + (design.avatarShape||'circle') + '" src="' + esc(avatarSrc) + '" alt="' + esc(profile.name||'Avatar') + '" onerror="this.src=\'https://ui-avatars.com/api/?name=You&background=6C63FF&color=fff&size=200\'"/>' + (profile.verified ? '<span class="verified"><i class="fas fa-check"></i></span>' : '') + '</div>' + (profile.name ? '<div class="name">' + esc(profile.name) + '</div>' : '') + (profile.badge ? '<span class="badge">' + esc(profile.badge) + '</span>' : '') + (profile.bio ? '<p class="bio">' + esc(profile.bio) + '</p>' : '') + '<div class="links ' + (design.animations ? 'animated' : '') + '">' + (linksHTML || '<p style="opacity:0.4;text-align:center">Keine Links vorhanden</p>') + '</div><div class="footer">Erstellt mit <a href="landing-builder.html">SocialTools</a>  2026</div></div>';
-    editBtn.href = 'landing-builder.html?config=' + encoded;
-    function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    content.innerHTML = `
+      <div class="page">
+        <div class="av-wrap">
+          <img class="av shape-${design.avatarShape||'circle'}" src="${esc(avatarSrc)}" alt="${esc(profile.name||'Avatar')}"
+               onerror="this.src='https://ui-avatars.com/api/?name=You&background=6C63FF&color=fff&size=200'"/>
+          ${profile.verified ? '<span class="verified"><i class="fas fa-check"></i></span>' : ''}
+        </div>
+        ${profile.name  ? `<div class="name">${esc(profile.name)}</div>` : ''}
+        ${profile.badge ? `<span class="badge">${esc(profile.badge)}</span>` : ''}
+        ${profile.bio   ? `<p class="bio">${esc(profile.bio)}</p>` : ''}
+        <div class="links ${design.animations ? 'animated' : ''}">
+          ${linksHTML || '<p style="opacity:0.4;text-align:center">Keine Links vorhanden</p>'}
+        </div>
+        <div class="footer">Erstellt mit <a href="landing-builder.html">SocialTools</a> © 2026</div>
+      </div>`;
+
+    editBtn.href = `landing-builder.html?config=${encoded}`;
+
+    function esc(s) {
+      return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
   })();
   </script>
 </body>
 </html>
+```

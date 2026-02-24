@@ -1,101 +1,245 @@
+```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Landing Builder – SocialTools</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <title>Landing Page Builder – SocialTools</title>
+  <link rel="stylesheet" href="style.css"/>
   <link rel="stylesheet" href="landing-style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 </head>
 <body>
+
   <nav class="main-nav">
-    <div class="nav-logo"><i class="fas fa-layer-group"></i> SocialTools</div>
+    <div class="nav-logo"><i class="fas fa-qrcode"></i> SocialTools</div>
     <div class="nav-links">
-      <a class="nav-link" href="index.html"><i class="fas fa-qrcode"></i> QR Generator</a>
-      <a class="nav-link active" href="landing-builder.html"><i class="fas fa-layer-group"></i> Landing Builder</a>
+      <a href="index.html" class="nav-link"><i class="fas fa-qrcode"></i> QR Generator</a>
+      <a href="landing-builder.html" class="nav-link active"><i class="fas fa-layer-group"></i> Landing Page Builder</a>
     </div>
   </nav>
-  <div class="container">
-    <header>
-      <h1><span>Landing Page</span> Builder</h1>
-      <p class="subtitle">Erstelle deine persönliche Link-Seite — kostenlos, ohne Anmeldung.</p>
-    </header>
-    <div class="builder-layout">
-      <div class="panel">
-        <div class="tabs">
-          <button class="tab active" data-tab="profile"><i class="fas fa-user"></i> Profil</button>
-          <button class="tab" data-tab="links"><i class="fas fa-link"></i> Links</button>
-          <button class="tab" data-tab="design"><i class="fas fa-palette"></i> Design</button>
-          <button class="tab" data-tab="share"><i class="fas fa-share-nodes"></i> Teilen</button>
+
+  <div class="builder-layout">
+
+    <aside class="editor-panel">
+      <div class="editor-header">
+        <h2><i class="fas fa-sliders-h"></i> Editor</h2>
+        <span class="editor-subtitle">Passe deine Landing Page an</span>
+      </div>
+
+      <div class="editor-tabs">
+        <button class="etab active" data-tab="profile"><i class="fas fa-user"></i> Profil</button>
+        <button class="etab" data-tab="links"><i class="fas fa-link"></i> Links</button>
+        <button class="etab" data-tab="design"><i class="fas fa-palette"></i> Design</button>
+        <button class="etab" data-tab="share"><i class="fas fa-share-nodes"></i> Teilen</button>
+        <button class="etab" data-tab="export"><i class="fas fa-download"></i> Export</button>
+      </div>
+
+      <!-- PROFIL -->
+      <div class="tab-content active" id="tab-profile">
+        <div class="field-group">
+          <label>Profilbild URL</label>
+          <input type="url" id="avatarUrl" placeholder="https://..."/>
+          <p class="field-hint">Tipp: ui-avatars.com für automatische Avatare</p>
         </div>
-        <div class="tab-content active" id="tab-profile">
-          <div class="form-group">
-            <label>Name</label>
-            <input id="fp-name" type="text" placeholder="z.B. Max Mustermann" maxlength="60"/>
-          </div>
-          <div class="form-group">
-            <label>Badge</label>
-            <input id="fp-badge" type="text" placeholder="z.B. Content Creator" maxlength="30"/>
-          </div>
-          <div class="form-group">
-            <label>Bio</label>
-            <textarea id="fp-bio" rows="3" placeholder="Erzähl etwas über dich…" maxlength="200"></textarea>
-          </div>
-          <div class="form-group">
-            <label>Avatar-URL</label>
-            <input id="fp-avatar" type="url" placeholder="https://example.com/avatar.jpg"/>
-          </div>
-          <div class="form-group">
-            <label class="toggle-label"><input type="checkbox" id="fp-verified"/> Verified-Badge anzeigen</label>
+        <div class="field-group">
+          <label>Name / Brand</label>
+          <input type="text" id="profileName" placeholder="Dein Name oder Markenname" maxlength="50"/>
+        </div>
+        <div class="field-group">
+          <label>Beschreibung / Bio</label>
+          <textarea id="profileBio" placeholder="Kurze Beschreibung über dich..." rows="3" maxlength="160"></textarea>
+          <span class="char-count" id="bioCount">0 / 160</span>
+        </div>
+        <div class="field-group">
+          <label>Kategorie / Badge</label>
+          <input type="text" id="profileBadge" placeholder="z.B. Content Creator, Designer ..." maxlength="30"/>
+        </div>
+        <div class="field-group">
+          <label>Verifiziert anzeigen?</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="showVerified"/>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- LINKS -->
+      <div class="tab-content" id="tab-links">
+        <div class="links-list" id="linksList"></div>
+        <button class="add-link-btn" id="addLinkBtn"><i class="fas fa-plus"></i> Link hinzufügen</button>
+      </div>
+
+      <!-- DESIGN -->
+      <div class="tab-content" id="tab-design">
+        <div class="field-group">
+          <label>Theme</label>
+          <div class="theme-grid">
+            <button class="theme-swatch active" data-theme="dark"   style="background:linear-gradient(135deg,#1a1a2e,#e75480)">Dark</button>
+            <button class="theme-swatch"        data-theme="ocean"  style="background:linear-gradient(135deg,#0f2027,#2196f3)">Ocean</button>
+            <button class="theme-swatch"        data-theme="forest" style="background:linear-gradient(135deg,#134e5e,#71b280)">Forest</button>
+            <button class="theme-swatch"        data-theme="sunset" style="background:linear-gradient(135deg,#f7971e,#ffd200)">Sunset</button>
+            <button class="theme-swatch"        data-theme="purple" style="background:linear-gradient(135deg,#4a00e0,#8e2de2)">Purple</button>
+            <button class="theme-swatch"        data-theme="rose"   style="background:linear-gradient(135deg,#f953c6,#b91d73)">Rose</button>
+            <button class="theme-swatch"        data-theme="mint"   style="background:linear-gradient(135deg,#00b09b,#96c93d)">Mint</button>
+            <button class="theme-swatch"        data-theme="light"  style="background:linear-gradient(135deg,#f5f7fa,#c3cfe2);color:#333">Light</button>
           </div>
         </div>
-        <div class="tab-content" id="tab-links">
-          <div id="links-list" class="links-list"></div>
-          <button class="add-link-btn" id="addLinkBtn"><i class="fas fa-plus"></i> Link hinzufügen</button>
-        </div>
-        <div class="tab-content" id="tab-design">
-          <div class="form-group">
-            <label>Theme</label>
-            <div class="theme-swatches" id="themeSwatches"></div>
+        <div class="field-group">
+          <label>Button-Stil</label>
+          <div class="btn-style-grid" id="btnStyleGrid">
+            <button class="bstyle-btn active" data-style="rounded">Rounded</button>
+            <button class="bstyle-btn" data-style="pill">Pill</button>
+            <button class="bstyle-btn" data-style="sharp">Sharp</button>
+            <button class="bstyle-btn" data-style="outline">Outline</button>
           </div>
-          <div class="form-group">
-            <label>Button-Farbe</label>
-            <div class="color-row">
-              <input type="color" id="dp-accent" value="#6C63FF"/>
-              <span id="dp-accent-hex">#6C63FF</span>
+        </div>
+        <div class="field-group">
+          <label>Button Akzentfarbe</label>
+          <input type="color" id="accentColor" value="#6C63FF"/>
+        </div>
+        <div class="field-group">
+          <label>Avatar-Form</label>
+          <div class="btn-style-grid" id="avatarShapeGrid">
+            <button class="bstyle-btn active" data-shape="circle">Kreis</button>
+            <button class="bstyle-btn" data-shape="square">Quadrat</button>
+            <button class="bstyle-btn" data-shape="hexagon">Hexagon</button>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Animationen</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="enableAnimations" checked/>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- SHARE -->
+      <div class="tab-content" id="tab-share">
+        <div class="share-hero">
+          <div class="share-hero-icon"><i class="fas fa-share-nodes"></i></div>
+          <h3>Deine persönliche URL</h3>
+          <p>Generiere eine einzigartige URL — kein Upload nötig!</p>
+          <button class="share-generate-btn" id="generateShareUrl">
+            <i class="fas fa-magic"></i> URL generieren
+          </button>
+        </div>
+
+        <div class="share-url-box" id="shareUrlBox" style="display:none;">
+          <label>Deine Landing Page URL</label>
+          <div class="share-url-row">
+            <input type="text" id="shareUrlDisplay" readonly/>
+            <button class="share-copy-btn" id="copyShareUrl" title="Kopieren"><i class="fas fa-copy"></i></button>
+            <a class="share-open-btn" id="openShareUrl" href="#" target="_blank" title="Öffnen"><i class="fas fa-external-link-alt"></i></a>
+          </div>
+
+          <div class="share-qr-section">
+            <label>QR-Code für diese URL</label>
+            <div class="share-qr-card">
+              <canvas id="shareQrCanvas"></canvas>
+            </div>
+            <div class="share-qr-actions">
+              <button class="qr-action-btn dl" id="shareQrDownload"><i class="fas fa-download"></i> QR-Code laden</button>
+              <div class="share-qr-size">
+                <button class="bstyle-btn active" data-sqrsize="150">S</button>
+                <button class="bstyle-btn" data-sqrsize="250">M</button>
+                <button class="bstyle-btn" data-sqrsize="350">L</button>
+              </div>
             </div>
           </div>
-          <div class="form-group">
-            <label>Button-Form</label>
-            <div class="btn-style-row" id="btnStyleRow"></div>
+
+          <div class="social-share-section">
+            <label>Direkt teilen</label>
+            <div class="social-share-btns">
+              <button class="social-btn whatsapp" id="shareWhatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+              <button class="social-btn telegram" id="shareTelegram"><i class="fab fa-telegram"></i> Telegram</button>
+              <button class="social-btn twitter"  id="shareTwitter"><i class="fab fa-x-twitter"></i> X/Twitter</button>
+              <button class="social-btn email"    id="shareEmail"><i class="fas fa-envelope"></i> E-Mail</button>
+            </div>
           </div>
-          <div class="form-group">
-            <label>Avatar-Form</label>
-            <div class="btn-style-row" id="avatarShapeRow"></div>
-          </div>
-          <div class="form-group">
-            <label class="toggle-label"><input type="checkbox" id="dp-anim" checked/> Animationen</label>
-          </div>
+
+          <button class="native-share-btn" id="nativeShareBtn" style="display:none;">
+            <i class="fas fa-share-alt"></i> Teilen (System-Dialog)
+          </button>
         </div>
-        <div class="tab-content" id="tab-share">
-          <p class="share-hint">Kopiere den Link und teile ihn — alle Daten sind direkt in der URL.</p>
-          <button class="generate-url-btn" id="genUrlBtn"><i class="fas fa-wand-magic-sparkles"></i> URL generieren</button>
-          <div class="url-output" id="urlOutput" style="display:none">
-            <input id="generatedUrl" type="text" readonly/>
-            <button class="copy-url-btn" id="copyUrlBtn"><i class="fas fa-copy"></i></button>
-          </div>
-          <div class="share-actions" id="shareActions" style="display:none">
-            <a class="share-btn wa" id="shareWa" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-            <a class="share-btn tg" id="shareTg" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
-            <a class="share-btn tw" id="shareTw" target="_blank"><i class="fab fa-x-twitter"></i> X / Twitter</a>
-            <button class="share-btn preview" id="previewBtn"><i class="fas fa-eye"></i> Vorschau</button>
+      </div>
+
+      <!-- EXPORT -->
+      <div class="tab-content" id="tab-export">
+        <div class="export-section">
+          <h3><i class="fas fa-file-code"></i> HTML exportieren</h3>
+          <p>Lade deine fertige Landing Page als eigenständige HTML-Datei herunter.</p>
+          <button class="export-btn" id="exportHtmlBtn"><i class="fas fa-download"></i> HTML herunterladen</button>
+        </div>
+        <div class="export-section">
+          <h3><i class="fas fa-share-nodes"></i> URL teilen</h3>
+          <p>Generiere eine einzigartige URL und teile deine Landing Page sofort.</p>
+          <button class="export-btn secondary" id="goToShareTabBtn"><i class="fas fa-share-nodes"></i> Zum Teilen-Tab</button>
+        </div>
+        <div class="export-section">
+          <h3><i class="fas fa-qrcode"></i> QR-Code</h3>
+          <p>Im "Teilen"-Tab wird automatisch ein QR-Code für deine URL generiert.</p>
+          <button class="export-btn secondary" id="goToShareTabBtn2"><i class="fas fa-qrcode"></i> QR-Code erstellen</button>
+        </div>
+      </div>
+
+    </aside>
+
+    <main class="preview-panel">
+      <div class="preview-header">
+        <span class="preview-label"><i class="fas fa-eye"></i> Live-Vorschau</span>
+        <div class="preview-header-right">
+          <a class="preview-open-btn" id="previewOpenBtn" href="#" target="_blank" style="display:none;">
+            <i class="fas fa-up-right-from-square"></i> Vorschau öffnen
+          </a>
+          <div class="device-toggle">
+            <button class="device-btn active" data-device="mobile"><i class="fas fa-mobile-alt"></i></button>
+            <button class="device-btn" data-device="tablet"><i class="fas fa-tablet-alt"></i></button>
+            <button class="device-btn" data-device="desktop"><i class="fas fa-desktop"></i></button>
           </div>
         </div>
       </div>
-      <div class="preview-panel" id="previewPanel"></div>
+      <div class="preview-wrapper">
+        <div class="device-frame mobile" id="deviceFrame">
+          <div class="landing-page" id="landingPreview"></div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">Link hinzufügen</h3>
+        <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="field-group">
+          <label>Plattform wählen</label>
+          <div class="modal-platform-grid" id="modalPlatformGrid"></div>
+        </div>
+        <div class="field-group">
+          <label>Button-Label</label>
+          <input type="text" id="modalLabel" placeholder="z.B. Folge mir auf Instagram"/>
+        </div>
+        <div class="field-group">
+          <label>URL</label>
+          <input type="url" id="modalUrl" placeholder="https://..."/>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn cancel" id="modalCancel">Abbrechen</button>
+        <button class="modal-btn confirm" id="modalConfirm">Hinzufügen</button>
+      </div>
     </div>
   </div>
-  <div class="toast" id="toast"></div>
+
+  <div class="toast" id="builderToast"></div>
   <script src="landing-app.js"></script>
 </body>
 </html>
+```
